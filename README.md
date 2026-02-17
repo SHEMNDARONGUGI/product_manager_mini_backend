@@ -1,7 +1,5 @@
 # Product Mini Backend
 
-![Run: pnpm dev](https://img.shields.io/badge/run-pnpm%20dev-brightgreen)
-
 > A small Express + MongoDB backend for managing products (CRUD) with simple API key auth and validation middleware.
 
 ## Features
@@ -73,10 +71,6 @@ curl -X POST http://localhost:3000/api/products \
   -H "x-api-key: your_api_key_here" \
   -d '{"name":"Widget","price":19.99,"description":"A widget","category":"tools","inStock":true}'
 ```
-
-## OpenAPI / Swagger
-An OpenAPI spec for the API is included at `openapi.yaml`. You can load it into tools like Swagger UI or Postman to explore and test the API.
-
 
 ## Project Structure
 
