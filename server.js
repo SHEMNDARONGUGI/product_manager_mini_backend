@@ -5,6 +5,8 @@ const productRoutes = require("./routes/productRoutes");
 const connectDB = require("./config/db");
 const requestLogger = require("./middlewares/loggerMiddleware");
 const authMiddleware = require("./middlewares/authMiddleware");
+const errorHandlingMiddleware = require("./middlewares/errorHandlingMiddleware");
+const CustomError = require('./Utils/CustomError');
 
 dotenv.config();
 connectDB();
@@ -15,13 +17,28 @@ app.use(requestLogger);
 app.use(cors());
 app.use(express.json());
 
+//API endport
+app.use('/api/products', authMiddleware, productRoutes);
+
+
 //Hello World route
 app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-//API endport
-app.use('/api/products', authMiddleware, productRoutes);
+
+
+app.use((req, res, next) =>{
+  // const err = new Error(`Can't find ${req.originalUrl} on the server`);
+  // err.status = 'fail';
+  // err.statusCode = 404;
+  // next(err);
+  const err = new CustomError(`Can't find ${req.originalUrl} on the server`, 404);
+  next(err);
+});
+
+app.use(errorHandlingMiddleware);
+
 
 //listening to the port
 const PORT = process.env.PORT || 3000;
