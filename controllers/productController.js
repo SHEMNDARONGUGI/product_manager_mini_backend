@@ -30,9 +30,13 @@ const getProducts = asyncErrorHandler(async (req, res) => {
     if (category) {
         filter.category = category;
     }
+    const page = req.query.page;
+    const limit = req.query.limit;
 
-    const products = await Product.find(filter);
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
 
+    const products = await Product.find(filter).skip(startIndex).limit(limit);
     res.status(200).json(products);
 });
 
